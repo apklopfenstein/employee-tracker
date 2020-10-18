@@ -1,10 +1,10 @@
-DROP DATABASE IF EXISTS employee.db;
-CREATE DATABASE employee.db;
-USE employee.db;
+DROP DATABASE IF EXISTS employees;
+CREATE DATABASE employees;
+USE employees;
 
 CREATE TABLE departments (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    department_name VARCHAR(30) NOT NULL
+    department_name VARCHAR(30) NOT NULL UNIQUE
 );
 
 CREATE TABLE roles (
@@ -12,14 +12,15 @@ CREATE TABLE roles (
     title VARCHAR(30) NOT NULL,
     salary DECIMAL (10, 2) NOT NULL,
     department_id INTEGER,
-    CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES department(id) ON DELETE CASCADE
+    CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES departments(id)
 );
 
 CREATE TABLE employees (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,
-    rold_id INTEGER,
+    role_id INTEGER,
     manager_id INTEGER,
-    CONSTRAINT fk_role FOREIGN KEY (rold_id) REFERENCES role(id) ON DELETE CASCADE
+    CONSTRAINT fk_manager FOREIGN KEY (manager_id) REFERENCES employees(id),
+    CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES roles(id)
 );
